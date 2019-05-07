@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>grounpName</key>
+		<string>第一组</string>
+		<key>grounpArray</key>
+		<array>
+			<string>付出</string>
+			<string>不为空的</string>
+			<string>something</string>
+			<string>因为我们都在这里</string>
+			<string>为我受冷风吹</string>
+			<string>UICollectionViewFlowLayout的itemSize的宽或者高设置的有问题！它的size必须在父容器的范围之内！</string>
+			<string>春天来了，你在哪发春</string>
+			<string>不</string>
+			<string>凹凸</string>
+		</array>
+	</dict>
+	<dict>
+		<key>grounpName</key>
+		<string>第二组</string>
+		<key>grounpArray</key>
+		<array>
+			<string>苦逼</string>
+			<string>不放弃</string>
+			<string>不抛弃</string>
+			<string>勇往直前路在远方</string>
+		</array>
+	</dict>
+	<dict>
+		<key>grounpName</key>
+		<string>第三组</string>
+		<key>grounpArray</key>
+		<array>
+			<string>权利的游戏</string>
+			<string>带你进入不一样的世界</string>
+			<string>王者荣耀该扔掉了</string>
+			<string>远方</string>
+			<string>SANetwork可配置不同服务环境的请求。这需要针对不同服务创建出不同的服务配置对象。</string>
+			<string>离散式</string>
+			<string>https://github.com/WWWarehouseMobile/SANetwork</string>
+		</array>
+	</dict>
+</array>
+</plist>

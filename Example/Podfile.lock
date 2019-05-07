@@ -1,0 +1,19 @@
+PODS:
+  - BHCollectionViewFlowLayout (0.1.0)
+  - Masonry (1.1.0)
+
+DEPENDENCIES:
+  - BHCollectionViewFlowLayout (from `../`)
+  - Masonry
+
+EXTERNAL SOURCES:
+  BHCollectionViewFlowLayout:
+    :path: ../
+
+SPEC CHECKSUMS:
+  BHCollectionViewFlowLayout: 1c7dd7ca4ad40b2f9425e1886042cdf0b88722de
+  Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
+
+PODFILE CHECKSUM: 41acb2b78cae3883a436de9d34f546523f1dd9ba
+
+COCOAPODS: 1.4.0

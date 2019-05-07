@@ -1,0 +1,13 @@
+source 'https://github.com/CocoaPods/Specs.git'
+
+platform :ios, '9.0'
+
+target 'BHCollectionViewFlowLayout_Example' do
+  pod 'BHCollectionViewFlowLayout', :path => '../'
+  pod 'Masonry',  inhibit_warnings: true
+  target 'BHCollectionViewFlowLayout_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
