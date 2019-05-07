@@ -146,8 +146,8 @@
     if (!_flowLayout) {
         _flowLayout = [[BHCollectionViewFlowLayout alloc] init];
         [_flowLayout bh_registerClass:[BHCollectionSectionBackgroundReusableView class] forDecorationViewOfKind:@"com.xuebao.BHCollectionViewSectionBackgroundColor.identifier"];
-        _flowLayout.estimatedItemSize = CGSizeMake(CGRectGetWidth([UIScreen mainScreen].bounds) - 270, 30.0f);
-        _flowLayout.itemSize = CGSizeMake(70, 30.0f);
+        _flowLayout.estimatedItemSize = CGSizeMake(60.0f, 30.0f);
+//        _flowLayout.itemSize = CGSizeMake(70, 30.0f);
 
         _flowLayout.minimumLineSpacing = 15.0f;
         _flowLayout.minimumInteritemSpacing = 20.0f;
