@@ -11,6 +11,8 @@
 
 @property (nonatomic, strong) NSMutableDictionary *sectionRectDict;
 
+
+@property (nonatomic, strong) NSMutableArray *deleteIndexPaths;
 @end
 
 @implementation BHCollectionViewFlowLayout{
@@ -21,6 +23,7 @@
     self = [super init];
     if (self) {
         _sectionRectDict = [[NSMutableDictionary alloc] init];
+        _deleteIndexPaths = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -41,6 +44,8 @@
 
 - (void)prepareLayout {
     [super prepareLayout];
+    [self.deleteIndexPaths removeAllObjects];
+    [self.sectionRectDict removeAllObjects];
 }
 
 - (CGSize)collectionViewContentSize {
@@ -48,7 +53,6 @@
 }
 
 - (NSArray<UICollectionViewLayoutAttributes *> *)layoutAttributesForElementsInRect:(CGRect)rect {
-    [self.sectionRectDict removeAllObjects];
     NSMutableArray<UICollectionViewLayoutAttributes *> *attributesArray = [NSMutableArray arrayWithArray:[super layoutAttributesForElementsInRect:rect]];
     for (NSInteger i=0; i<attributesArray.count; i++) {
         UICollectionViewLayoutAttributes *layoutAttibutes = attributesArray[i];
@@ -60,21 +64,14 @@
     if (self.decorationViewOfElementKind) {
         [self.sectionRectDict enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
             NSInteger section = [key integerValue];
-            UICollectionViewLayoutAttributes *decorationLayoutAttributes = [UICollectionViewLayoutAttributes layoutAttributesForDecorationViewOfKind:self.decorationViewOfElementKind withIndexPath:[NSIndexPath indexPathForItem:0 inSection:section]];
-            if (decorationLayoutAttributes) {
-                CGRect rect = [(NSValue *)obj CGRectValue];
-                UIEdgeInsets edgeInsets = [self edgeInsetsInSection:section];
-                 CGFloat viewWidth = [self collectionViewContentSize].width;
-                if (rect.size.width < viewWidth - edgeInsets.left - edgeInsets.right) {
-                    rect.size.width = viewWidth - edgeInsets.left - edgeInsets.right;
+            NSInteger itemCount = [self.collectionView numberOfItemsInSection:section];
+            if (itemCount) {
+                UICollectionViewLayoutAttributes *decorationLayoutAttributes = [self layoutAttributesForDecorationViewOfKind:self.decorationViewOfElementKind atIndexPath:[NSIndexPath indexPathForItem:0 inSection:section]];
+                if (decorationLayoutAttributes) {
+                    [attributesArray addObject:decorationLayoutAttributes];
                 }
-                rect.origin.x = edgeInsets.left;
-                rect = UIEdgeInsetsInsetRect(rect, self.decorationOffsetEdgeInsets);
-                
-                decorationLayoutAttributes.frame = rect;
-                decorationLayoutAttributes.zIndex = -1;
-                [attributesArray addObject:decorationLayoutAttributes];
             }
+
         }];
     }
     return attributesArray;
@@ -84,6 +81,31 @@
     UICollectionViewLayoutAttributes *currentItemAttributes = [super layoutAttributesForItemAtIndexPath:indexPath];
     [self updateRectForLayoutAttributes:currentItemAttributes];
     return currentItemAttributes;
+}
+
+//- (UICollectionViewLayoutAttributes *)layoutAttributesForSupplementaryViewOfKind:(NSString *)elementKind atIndexPath:(NSIndexPath *)indexPath {
+//    UICollectionViewLayoutAttributes *supplementaryLayoutAttributes = [UICollectionViewLayoutAttributes layoutAttributesForSupplementaryViewOfKind:elementKind withIndexPath:indexPath];
+//    return supplementaryLayoutAttributes;
+//}
+
+
+
+- (UICollectionViewLayoutAttributes *)layoutAttributesForDecorationViewOfKind:(NSString *)elementKind atIndexPath:(NSIndexPath *)indexPath {
+    UICollectionViewLayoutAttributes *decorationLayoutAttributes = [UICollectionViewLayoutAttributes layoutAttributesForDecorationViewOfKind:elementKind withIndexPath:indexPath];
+    if ([self.sectionRectDict objectForKey:@(indexPath.section)]) {
+        CGRect rect = [[self.sectionRectDict objectForKey:@(indexPath.section)] CGRectValue];
+        UIEdgeInsets edgeInsets = [self edgeInsetsInSection:indexPath.section];
+        CGFloat viewWidth = [self collectionViewContentSize].width;
+        if (rect.size.width < viewWidth - edgeInsets.left - edgeInsets.right) {
+            rect.size.width = viewWidth - edgeInsets.left - edgeInsets.right;
+        }
+        rect.origin.x = edgeInsets.left;
+        rect = UIEdgeInsetsInsetRect(rect, self.decorationOffsetEdgeInsets);
+        
+        decorationLayoutAttributes.frame = rect;
+    }
+    decorationLayoutAttributes.zIndex = -1;
+    return decorationLayoutAttributes;
 }
 
 - (void)updateRectForLayoutAttributes:(UICollectionViewLayoutAttributes *)layoutAttributes {
@@ -118,4 +140,37 @@
 - (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds {
     return YES;
 }
+
+- (void)prepareForCollectionViewUpdates:(NSArray<UICollectionViewUpdateItem *> *)updateItems {
+    [super prepareForCollectionViewUpdates:updateItems];
+    for(UICollectionViewUpdateItem *update in updateItems){
+
+        switch (update.updateAction) {
+            case UICollectionUpdateActionDelete:
+                //删除事件
+                [self.deleteIndexPaths addObject:update.indexPathBeforeUpdate];
+                break;
+
+            default:
+                break;
+        }
+
+    }
+}
+
+- (UICollectionViewLayoutAttributes *)finalLayoutAttributesForDisappearingItemAtIndexPath:(NSIndexPath *)itemIndexPath {
+    UICollectionViewLayoutAttributes *attributes = [super finalLayoutAttributesForDisappearingItemAtIndexPath:itemIndexPath];
+    if ([self.deleteIndexPaths containsObject:itemIndexPath]){
+        if (!attributes)
+            attributes = [self layoutAttributesForItemAtIndexPath:itemIndexPath];
+
+        attributes.alpha = 0.0;
+
+        //消失的一个动画效果
+        attributes.transform3D = CATransform3DMakeScale(0.1, 0.1, 1.0);
+    }
+    return attributes;
+}
+
+
 @end

@@ -21,7 +21,7 @@
         self.contentView.backgroundColor = [UIColor colorWithRed:234/255.0 green:234/255.0 blue:234/255.0 alpha:1];
         
         [self.textLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.width.mas_lessThanOrEqualTo(CGRectGetWidth([UIScreen mainScreen].bounds) - 40 - 30);
+            make.width.mas_lessThanOrEqualTo(CGRectGetWidth([UIScreen mainScreen].bounds) - 70);
             make.height.mas_equalTo(30);
             make.left.mas_equalTo(15);
             make.trailing.mas_equalTo(-15);

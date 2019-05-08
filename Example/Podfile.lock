@@ -11,7 +11,7 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  BHCollectionViewFlowLayout: 1c7dd7ca4ad40b2f9425e1886042cdf0b88722de
+  BHCollectionViewFlowLayout: a23ab975255f7205fc0d205409e6ec0b17e84553
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
 
 PODFILE CHECKSUM: 41acb2b78cae3883a436de9d34f546523f1dd9ba
