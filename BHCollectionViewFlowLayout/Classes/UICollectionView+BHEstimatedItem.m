@@ -90,6 +90,7 @@
         }];
     }else {
         [self insertItemsAtIndexPaths:indexPaths];
+        [self performBatchUpdates:nil completion:nil];
     }
 }
 
