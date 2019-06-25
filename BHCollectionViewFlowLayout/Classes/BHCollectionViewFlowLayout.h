@@ -14,9 +14,10 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  item左对齐
  */
+@protocol BHCollectionViewFlowLayoutDelegate;
 @interface BHCollectionViewFlowLayout : UICollectionViewFlowLayout
 
-
+@property (nonatomic, weak) id<BHCollectionViewFlowLayoutDelegate> bh_delegate;
 /**
  装饰视图的区域偏移量。
  默认区域：覆盖各section的item
@@ -29,6 +30,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, copy) NSString *decorationViewOfElementKind;
 - (void)bh_registerClass:(Class)viewClass forDecorationViewOfKind:(NSString *)elementKind;
+
+@end
+
+@protocol BHCollectionViewFlowLayoutDelegate <NSObject>
+
+- (void)collectionViewFlowLayout:(BHCollectionViewFlowLayout *)collectionViewFlowLayout layoutAttributes:(UICollectionViewLayoutAttributes *)layoutAttributes;
 
 @end
 

@@ -135,6 +135,10 @@
         rect.origin.x = previousItemAttributes.frame.origin.x + previousItemAttributes.frame.size.width + self.minimumInteritemSpacing;
         layoutAttributes.frame = rect;
     }
+    
+    if ([self.bh_delegate respondsToSelector:@selector(collectionViewFlowLayout:layoutAttributes:)]) {
+        [self.bh_delegate collectionViewFlowLayout:self layoutAttributes:layoutAttributes];
+    }
 }
 
 - (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds {
