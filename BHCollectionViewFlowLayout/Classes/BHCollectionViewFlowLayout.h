@@ -35,8 +35,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol BHCollectionViewFlowLayoutDelegate <NSObject>
 
+@optional
 - (void)collectionViewFlowLayout:(BHCollectionViewFlowLayout *)collectionViewFlowLayout layoutAttributes:(UICollectionViewLayoutAttributes *)layoutAttributes;
 
+- (void)bh_collectionViewFlowLayout:(BHCollectionViewFlowLayout *)collectionViewFlowLayout layoutChangeByContentSize:(CGSize)size;
 @end
 
 NS_ASSUME_NONNULL_END

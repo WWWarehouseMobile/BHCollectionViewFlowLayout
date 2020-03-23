@@ -13,6 +13,8 @@
 
 
 @property (nonatomic, strong) NSMutableArray *deleteIndexPaths;
+
+@property (nonatomic, assign) CGSize bh_preSize;
 @end
 
 @implementation BHCollectionViewFlowLayout{
@@ -49,7 +51,14 @@
 }
 
 - (CGSize)collectionViewContentSize {
-    return [super collectionViewContentSize];
+    CGSize size = [super collectionViewContentSize];
+    if (!CGSizeEqualToSize(size, self.bh_preSize)) {
+        self.bh_preSize = size;
+        if ([self.bh_delegate respondsToSelector:@selector(bh_collectionViewFlowLayout:layoutChangeByContentSize:)]) {
+            [self.bh_delegate bh_collectionViewFlowLayout:self layoutChangeByContentSize:size];
+        }
+    }
+    return size;
 }
 
 - (NSArray<UICollectionViewLayoutAttributes *> *)layoutAttributesForElementsInRect:(CGRect)rect {
